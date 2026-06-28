@@ -1,4 +1,4 @@
-const API_URL = 'https://task-manager-to-do-task.onrender.com';
+const API_URL = 'https://task-manager-api-qm8u.onrender.com';
 let isSignUpMode = false;
 
 const getToken = () => localStorage.getItem('token');
