@@ -33,26 +33,24 @@ async function handleAuth() {
     if (!username || !password) return alert("Please fill in all fields");
 
     const endpoint = isSignUpMode ? '/auth/signup' : '/auth/login';
-    const response = await fetch(`${API_URL}${endpoint}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-    });
-    const data = await response.json();
-
-    if (data.error) return alert(data.error);
-
-    if (isSignUpMode) {
-        alert(data.message);
-        toggleAuthMode();
-    } else {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('username', data.username);
-        document.getElementById('username').value = '';
-        document.getElementById('password').value = '';
-        checkSession();
+    const response = await fetch('https://task-manager-api-qm8u.onrender.com/auth/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+})
+.then(response => {
+    // Check if the response status is in the 200-299 range
+    if (!response.ok) {
+        throw new Error(`Server returned status ${response.status}`);
     }
-}
+    return response.json(); // Only parse if response is OK
+})
+.then(data => {
+    // Handle successful login
+})
+.catch(error => {
+    console.error("Login failed:", error.message);
+});
 
 async function fetchTasks() {
     const response = await fetch(`${API_URL}/tasks`, { headers: getHeaders() });

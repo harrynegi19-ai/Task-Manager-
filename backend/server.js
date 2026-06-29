@@ -8,8 +8,24 @@ const app = express();
 const PORT = 5000;
 const JWT_SECRET = 'super_secret_token_key_123'; // Used to sign authentication passes
 
+// Allow both your specific custom production domain AND Vercel automatic preview URLs
+const allowedOrigins = [
+    'https://task-manager-lovat-eight-15.vercel.app',
+    'https://task-manager-82vr39wyk-harrynegi19-ais-projects.vercel.app'
+];
+
 app.use(cors({
-    origin: 'https://task-manager-lovat-eight-15.vercel.app',
+    origin: function (origin, callback) {
+        // Allow server-to-server or tools like Postman (no origin)
+        if (!origin) return callback(null, true);
+        
+        // Dynamically approve your exact domain or any Vercel deployment URL
+        if (origin.endsWith('.vercel.app') || origin === 'https://task-manager-lovat-eight-15.vercel.app') {
+            return callback(null, true);
+        } else {
+            return callback(new Error('Blocked by CORS policy configuration'));
+        }
+    },
     credentials: true
 }));
 app.use(express.json());
