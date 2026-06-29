@@ -8,7 +8,10 @@ const app = express();
 const PORT = 5000;
 const JWT_SECRET = 'super_secret_token_key_123'; // Used to sign authentication passes
 
-app.use(cors());
+app.use(cors({
+    origin: 'https://task-manager-lovat-eight-15.vercel.app',
+    credentials: true
+}));
 app.use(express.json());
 
 // 1. MYSQL DATABASE CONNECTION POOL
